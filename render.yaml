@@ -1,0 +1,30 @@
+# ============================================================
+# Render.com Blueprint Configuration
+# Deploy with: render blueprint push (after CLI setup)
+# Or: connect your GitHub repo in Render Dashboard
+# ============================================================
+
+services:
+  # Web Service — the library website
+  - type: web
+    name: osgu-library
+    runtime: docker
+    plan: free
+    region: singapore  # closest to India; change if needed
+    env: docker
+
+    # Persistent disk for SQLite database
+    disk:
+      name: library-data
+      mountPath: /data
+      sizeGB: 1  # Free tier allows up to 1GB
+
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: "10000"
+      - key: DATABASE_URL
+        value: "file:/data/library.db"
+      - key: NEXT_TELEMETRY_DISABLED
+        value: "1"
